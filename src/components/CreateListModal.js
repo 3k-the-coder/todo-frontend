@@ -59,10 +59,10 @@ export default class CreateListModal extends Component {
         ]}
       >
         <Row>
-          <Col lg={4}>
+          <Col lg={4} xs={8}>
             <label for="name"> Name: </label>
           </Col>
-          <Col lg={20}>
+          <Col lg={20} xs={16}>
             <Input
               id="name"
               placeholder="Enter name"
@@ -72,10 +72,10 @@ export default class CreateListModal extends Component {
         </Row>
 
         <Row className="form-top-margin-3vh">
-          <Col lg={4}>
+          <Col lg={4} xs={8}>
             <label for="description"> Description: </label>
           </Col>
-          <Col lg={20}>
+          <Col lg={20} xs={16}>
             <Input.TextArea
               id="description"
               placeholder="Enter description"

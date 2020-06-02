@@ -7,7 +7,7 @@ import {
   PlusOutlined,
   ArrowLeftOutlined,
   FilterOutlined,
-  FilterFilled
+  FilterFilled,
 } from "@ant-design/icons";
 import ApplyFilterModal from "./ApplyFilterModal";
 
@@ -74,7 +74,7 @@ export default class List extends Component {
   };
 
   reload = async () => {
-    this.setState({ tasks: undefined })
+    this.setState({ tasks: undefined });
     const filterObject = JSON.parse(localStorage.getItem("filter"));
     if (filterObject) {
       const response = await filterTask(
@@ -100,24 +100,24 @@ export default class List extends Component {
 
   renderTasks = () => {
     return this.state.tasks.map((item) => {
-      return <Task task={item} 
-                handleDeleteTask={this.handleDeleteTask} 
-                reload = {this.reload}/>;
+      return (
+        <Task
+          task={item}
+          handleDeleteTask={this.handleDeleteTask}
+          reload={this.reload}
+        />
+      );
     });
   };
 
   isFilterApplied = () => {
-    
-    const filter = localStorage.getItem('filter');
-    if(filter === undefined || filter === null)
-      return false;
-    if(Object.keys(JSON.parse(filter)).length === 0)
-      return false
+    const filter = localStorage.getItem("filter");
+    if (filter === undefined || filter === null) return false;
+    if (Object.keys(JSON.parse(filter)).length === 0) return false;
     return true;
-  }
+  };
 
   componentDidMount = async () => {
-    
     const filterObject = JSON.parse(localStorage.getItem("filter"));
     if (filterObject) {
       const response = await filterTask(
@@ -138,38 +138,36 @@ export default class List extends Component {
     return (
       <div>
         <Row>
-          <Col lg={8}>
+          <Col lg={8} md={4} sm={4} xs={4}>
             <ArrowLeftOutlined
               className="back-icon"
               onClick={this.props.removeListSelection}
             />
           </Col>
-          <Col lg={16}>
+          <Col lg={16} md={20} sm={20} xs={20}>
             <div className="list-container">
               <Row>
-                <Col lg={18}>
+                <Col span={18}>
                   <h2> {this.state.selectedList.name} </h2>
                 </Col>
-                <Col lg={6}>
+                <Col span={6}>
                   <Tooltip title="Click here to create new task">
                     <PlusOutlined
                       className="float-right icon create-task-icon"
                       onClick={this.handleCreateNewTask}
                     />
                   </Tooltip>
-                  {
-                   
-                    this.isFilterApplied()
-                    ?<FilterFilled
-                    className="float-right icon filter-icon"
-                    onClick={this.handleFilterClick}
-                  />
-                    :<FilterOutlined
-                    className="float-right icon filter-icon"
-                    onClick={this.handleFilterClick}
-                  />
-                  }
-                  
+                  {this.isFilterApplied() ? (
+                    <FilterFilled
+                      className="float-right icon filter-icon"
+                      onClick={this.handleFilterClick}
+                    />
+                  ) : (
+                    <FilterOutlined
+                      className="float-right icon filter-icon"
+                      onClick={this.handleFilterClick}
+                    />
+                  )}
                 </Col>
                 {this.state.tasks === undefined ||
                 this.state.tasks.length === 0 ? (

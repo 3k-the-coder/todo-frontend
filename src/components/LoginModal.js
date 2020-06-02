@@ -27,9 +27,11 @@ export default class LoginModal extends Component {
         else if(this.state.password === undefined)
             message.error("Password can't be empty");
         else{
-            await login(this.state.email, this.state.password);
+            const response = await login(this.state.email, this.state.password);
+            console.log(response.data);
             localStorage.clear();
             localStorage.setItem('email', this.state.email);
+            localStorage.setItem("isSubscribed", response.data.subscribed)
             history.replace('/main');
         }
 
@@ -67,19 +69,19 @@ export default class LoginModal extends Component {
             >
                 
                 <Row>
-                    <Col lg={4} >
+                    <Col lg={4} md={6} sm={6} xs={6}>
                         <label for="email"> Email: </label>
                     </Col>
-                    <Col lg={20}>
+                    <Col lg={20} md={18} sm={18} xs={18}>
                         <Input id="email" placeholder="Enter email" onChange={this.handleEmailChange}/>
                     </Col>
                 </Row>
 
                 <Row className="form-top-margin-3vh">
-                    <Col lg={4} >
+                    <Col lg={4} md={6} sm={6} xs={6}>
                         <label for="password"> Password: </label>
                     </Col>
-                    <Col lg={20}>
+                    <Col lg={20} md={18} sm={18} xs={18}>
                         <Input.Password id="password" placeholder="Enter Password" onChange={this.handlePasswordChange}/>
                     </Col>
                 </Row>

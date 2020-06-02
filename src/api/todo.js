@@ -104,3 +104,10 @@ export const filterTask = async (id, progress, label, status, priority) => {
     }
   })
 }
+
+export const subscribe = async (email, subscribe) => {
+  return await todo.post("subscribe/",{
+    email,
+    subscribe
+  })
+}

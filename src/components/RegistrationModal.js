@@ -26,7 +26,7 @@ export default class RegistrationModal extends Component {
       message.error("Please enter an email to continue");
     else if(this.state.password === undefined)
       message.error("Please enter a password to continue");
-    else if(this.state.password.length <= 8)
+    else if(this.state.password.length < 8)
       message.error("Password should at least be 8 characters long");
     else if(this.state.password !== this.state.confirmPassword)
       message.error("Passwords doesn't match");
@@ -79,10 +79,10 @@ export default class RegistrationModal extends Component {
       >
 
             <Row>
-                <Col lg={4}>
+                <Col lg={4} md={6} sm={6} xs={6}>
                     <label for="name"> Name: </label>
                 </Col>
-                <Col lg={20}>
+                <Col lg={20} md={18} sm={18} xs={18}>
                     <Input
                     id="name"
                     placeholder="Enter name"
@@ -93,10 +93,10 @@ export default class RegistrationModal extends Component {
 
 
         <Row className="form-top-margin-3vh">
-          <Col lg={4}>
+          <Col lg={4} md={6} sm={6} xs={6}>
             <label for="email"> Email: </label>
           </Col>
-          <Col lg={20}>
+          <Col lg={20} md={18} sm={18} xs={18}>
             <Input
               id="email"
               placeholder="Enter email"
@@ -106,10 +106,10 @@ export default class RegistrationModal extends Component {
         </Row>
 
         <Row className="form-top-margin-3vh">
-          <Col lg={4}>
+          <Col lg={4} md={6} sm={6} xs={6}>
             <label for="password"> Password: </label>
           </Col>
-          <Col lg={20}>
+          <Col lg={20} md={18} sm={18} xs={18}>
             <Input.Password
               id="password"
               placeholder="Enter Password"
@@ -118,10 +118,10 @@ export default class RegistrationModal extends Component {
           </Col>
         </Row>
         <Row className="form-top-margin-3vh">
-            <Col lg={4}>
+            <Col lg={4} md={6} sm={6} xs={6}> 
                 <label for="confirm-password">Confirm: </label>
             </Col>
-            <Col lg={20}>
+            <Col lg={20} md={18} sm={18} xs={18}>
                 <Input.Password
                 id="confirm-password"
                 placeholder="Confirm Password"

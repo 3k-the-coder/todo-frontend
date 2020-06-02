@@ -104,10 +104,10 @@ export default class EditTaskModal extends Component {
         ]}
       >
         <Row>
-          <Col lg={4}>
+          <Col lg={4} md={6} sm={6} xs={6}>
             <label for="name"> Name: </label>
           </Col>
-          <Col lg={20}>
+          <Col lg={20} md={18} sm={18} xs={18}>
             <Input
               id="name"
               placeholder="Enter name"
@@ -118,10 +118,10 @@ export default class EditTaskModal extends Component {
         </Row>
 
         <Row className="form-top-margin-3vh">
-          <Col lg={4}>
+          <Col lg={4} md={6} sm={6} xs={6}>
             <label for="description"> Description: </label>
           </Col>
-          <Col lg={20}>
+          <Col lg={20} md={18} sm={18} xs={18}>
             <Input.TextArea
               id="description"
               placeholder="Enter description"
@@ -131,10 +131,10 @@ export default class EditTaskModal extends Component {
           </Col>
         </Row>
         <Row className="form-top-margin-3vh">
-          <Col lg={4}>
+          <Col lg={4} md={6} sm={6} xs={6}>
             <label for="label"> Label: </label>
           </Col>
-          <Col lg={20}>
+          <Col lg={20} md={18} sm={18} xs={18}>
             <Select
               showSearch
               defaultValue={this.state.label}
@@ -152,10 +152,10 @@ export default class EditTaskModal extends Component {
           </Col>
         </Row>
         <Row className="form-top-margin-3vh">
-          <Col lg={4}>
+          <Col lg={4} md={6} sm={6} xs={6}>
             <label for="status"> Status: </label>
           </Col>
-          <Col lg={20}>
+          <Col lg={20} md={18} sm={18} xs={18}>
             <Select
               showSearch
               defaultValue={this.state.status}
@@ -173,17 +173,18 @@ export default class EditTaskModal extends Component {
         </Row>
 
         <Row className="form-top-margin-3vh">
-            <Col lg={4}>
+            <Col lg={4} md={6} sm={6} xs={6}>
                 <label for="date"> Due Date: </label>
             </Col>
-            <Col lg={8}>
+            <Col lg={8} md={7} sm={7} xs={8}>
                 <DatePicker onChange={this.handleDateChange}
                     value={moment(this.state.date, 'YYYY-MM-DD')}
                     />
             </Col>
-            <Col lg={8}>
+            <Col lg={8} md={7} sm={7} xs={8}>
                 <TimePicker onChange={this.handleTimeChange} 
-                    value={moment(this.state.time, 'HH:mm:ss')}
+                    value={moment(this.state.time, 'HH:mm')}
+                    format="HH:mm"
                 />
             </Col>
         </Row>

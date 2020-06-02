@@ -4,11 +4,8 @@ export default class Footer extends Component {
     render() {
         return (
             <footer className="footer">
-                <Row> 
-                    <Col lg={12}>
-                        
-                    </Col>
-                    <Col lg={12}>
+                <Row>                     
+                    <Col lg={24} md={24} sm={24} xs={24}>
                         <p className="footer-text float-right"> copyright &copy; {new Date().getFullYear()} </p>
                     </Col>
                 </Row>
