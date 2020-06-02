@@ -30,9 +30,10 @@ export default class LoginModal extends Component {
             try{
                 const response = await login(this.state.email, this.state.password);
                 localStorage.clear();
-                localStorage.setItem('email', this.state.email);
-                localStorage.setItem("isSubscribed", response.data.subscribed)
-                history.replace('/main');
+                localStorage.setItem("email", this.state.email);
+                localStorage.setItem("isSubscribed", response.data.subscribed);
+                localStorage.setItem("name", response.data.name);
+                history.replace("/main");
             }
             catch(err)
             {

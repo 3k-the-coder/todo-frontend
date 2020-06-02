@@ -148,6 +148,20 @@ body {
   line-height: 1;
 }
 
+.user-button{
+  color: white;
+  margin: 2vh 0;
+  background-color: var(--accent-color-orange);
+  border-color: var(--accent-color-orange);
+  border-radius: 5vh;
+}
+.user-button:hover, .user-button:active, .user-button:focus{
+  color: white;
+  background-color: var(--accent-color-yellow);
+  border-color: var(--accent-color-yellow);
+}
+
+
 /* MainContent */
 
 .empty-lists-msg {
