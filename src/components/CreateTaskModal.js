@@ -1,6 +1,16 @@
 import React, { Component } from "react";
 import { createNewTask } from "../api/todo";
-import { Modal, Button, Input, Row, Col, Select, TimePicker, DatePicker, message } from "antd";
+import {
+  Modal,
+  Button,
+  Input,
+  Row,
+  Col,
+  Select,
+  TimePicker,
+  DatePicker,
+  message,
+} from "antd";
 
 const { Option } = Select;
 
@@ -14,7 +24,7 @@ export default class CreateTaskModal extends Component {
       label: undefined,
       status: undefined,
       date: undefined,
-      time: undefined
+      time: undefined,
     };
   }
 
@@ -25,31 +35,34 @@ export default class CreateTaskModal extends Component {
 
   handleOk = async () => {
     let desc;
-      if(this.state.description === undefined)
-        desc=" "
-      else
-        desc = this.state.description
+    if (this.state.description === undefined) desc = " ";
+    else desc = this.state.description;
     if (this.state.name === undefined) message.error("Name can't be empty");
-    else if(this.state.label === undefined) message.error("Please select a label for the task");
-    else if(this.state.status === undefined) message.error("Please select a status for the task");
-    else if(this.state.date === undefined || this.state.time === undefined) 
+    else if (this.state.label === undefined)
+      message.error("Please select a label for the task");
+    else if (this.state.status === undefined)
+      message.error("Please select a status for the task");
+    else if (this.state.date === undefined || this.state.time === undefined)
       message.error("Please select a due date and time for the task");
-    
-    else{
-      await createNewTask(
-        this.props.selectedList.id,
-        this.state.name,
-        desc,
-        this.state.label,
-        this.state.status,
-        this.state.date,
-        this.state.time
-      );
-      this.setState({ visible: false });
-      this.props.toggleCreateTaskModalVisibility(false, true);
+    else {
+      try {
+        await createNewTask(
+          this.props.selectedList.id,
+          this.state.name,
+          desc,
+          this.state.label,
+          this.state.status,
+          this.state.date,
+          this.state.time
+        );
+        message.success("Task created successfully");
+        this.setState({ visible: false });
+        this.props.toggleCreateTaskModalVisibility(false, true);
+      } catch (err) {
+        if (err.response.data) message.error(err.response.data);
+        else message.error("Something went wrong");
+      }
     }
-
-
   };
 
   handleNameChange = (event) => {
@@ -69,12 +82,12 @@ export default class CreateTaskModal extends Component {
   };
 
   handleDateChange = (date, dateString) => {
-      this.setState({ date: dateString })
-  }
+    this.setState({ date: dateString });
+  };
 
   handleTimeChange = (time, timeString) => {
-    this.setState({ time: timeString })
-  }
+    this.setState({ time: timeString });
+  };
 
   render() {
     return (
@@ -160,15 +173,15 @@ export default class CreateTaskModal extends Component {
         </Row>
 
         <Row className="form-top-margin-3vh">
-            <Col lg={4} md={6} sm={6} xs={6}>
-                <label for="date"> Due Date: </label>
-            </Col>
-            <Col lg={8} md={7} sm={7} xs={8}>
-                <DatePicker onChange={this.handleDateChange}/>
-            </Col>
-            <Col lg={8} md={7} sm={7} xs={8}>
-                <TimePicker onChange={this.handleTimeChange} format="HH:mm"/>
-            </Col>
+          <Col lg={4} md={6} sm={6} xs={6}>
+            <label for="date"> Due Date: </label>
+          </Col>
+          <Col lg={8} md={7} sm={7} xs={8}>
+            <DatePicker onChange={this.handleDateChange} />
+          </Col>
+          <Col lg={8} md={7} sm={7} xs={8}>
+            <TimePicker onChange={this.handleTimeChange} format="HH:mm" />
+          </Col>
         </Row>
       </Modal>
     );

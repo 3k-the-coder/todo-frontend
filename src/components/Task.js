@@ -3,7 +3,6 @@ import { Card, Row, Col, Tooltip, Tag, Checkbox, Popconfirm } from "antd";
 import EditTaskModal from "./EditTaskModal";
 import { getSingleTask, updateTask } from "../api/todo";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import moment from "moment";
 
 const months = [
   "Jan",
@@ -117,9 +116,7 @@ export default class Task extends Component {
 
   render() {
     const task = this.state.task;
-    console.log(task.due_date);
-    console.log(new Date() > new Date(task.due_date));
-
+    
     return (
       <Card className="task small-top-margin">
         <Row>

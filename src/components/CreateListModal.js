@@ -24,13 +24,21 @@ export default class CreateListModal extends Component {
         desc=" "
       else
         desc = this.state.description
-      await createNewList(
-        localStorage.getItem("email"),
-        this.state.name, 
-        desc
-      );
-      this.setState({ visible: false });
-      this.props.toggleCreateModalVisibility(false, true);
+      try{
+        await createNewList(
+          localStorage.getItem("email"),
+          this.state.name, 
+          desc
+        );
+        message.success("List created successfully")
+        this.setState({ visible: false });
+        this.props.toggleCreateModalVisibility(false, true);
+      }
+      catch(err)
+      {
+        message.error("Something went wrong! Please try again.")
+      }
+
     }
   };
 

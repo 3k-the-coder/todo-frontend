@@ -26,21 +26,36 @@ export default class RegistrationModal extends Component {
       message.error("Please enter an email to continue");
     else if(this.state.password === undefined)
       message.error("Please enter a password to continue");
+    else if(!(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(this.state.email)))
+      message.error("Please enter email in a proper format")
     else if(this.state.password.length < 8)
       message.error("Password should at least be 8 characters long");
     else if(this.state.password !== this.state.confirmPassword)
       message.error("Passwords doesn't match");
+
     else
     {
-      await register(
-        this.state.name,
-        this.state.email,
-        this.state.password,
-        this.state.confirmPassword
-      );
+      try{
+        await register(
+          this.state.name,
+          this.state.email,
+          this.state.password,
+          this.state.confirmPassword
+        );
+        message.success("User registered successfully. Please login to continue")
+        this.setState({ visible: false });
+        this.props.toggleRegisterModalVisibility(false);
+      }
+      catch(err)
+      {
+        if(err.response)
+          message.error(err.response.data)
+        else
+          message.error("Something went wrong!")
+      }
+      
   
-      this.setState({ visible: false });
-      this.props.toggleRegisterModalVisibility(false);
+      
     }
 
   };

@@ -27,12 +27,21 @@ export default class LoginModal extends Component {
         else if(this.state.password === undefined)
             message.error("Password can't be empty");
         else{
-            const response = await login(this.state.email, this.state.password);
-            console.log(response.data);
-            localStorage.clear();
-            localStorage.setItem('email', this.state.email);
-            localStorage.setItem("isSubscribed", response.data.subscribed)
-            history.replace('/main');
+            try{
+                const response = await login(this.state.email, this.state.password);
+                localStorage.clear();
+                localStorage.setItem('email', this.state.email);
+                localStorage.setItem("isSubscribed", response.data.subscribed)
+                history.replace('/main');
+            }
+            catch(err)
+            {
+                if(err.response)
+                    message.error(err.response.data);
+                else
+                    message.error("Something went wrong, Please try again")
+            }
+
         }
 
 

@@ -36,6 +36,7 @@ export default class EditTaskModal extends Component {
     else if(this.state.date === undefined || this.state.time === undefined) 
       message.error("Please select a due date and time for the task");
     else{
+      try{
         await updateTask(
           this.props.task.id,
           this.state.name,
@@ -46,8 +47,16 @@ export default class EditTaskModal extends Component {
           this.state.time,
           this.state.isCompleted
         );
-      this.setState({ visible: false });
-      this.props.toggleEditTaskModalVisibility(false, true);
+        message.success("Task updated successfully")
+        this.setState({ visible: false });
+        this.props.toggleEditTaskModalVisibility(false, true);
+      }
+      catch(err)
+      {
+        if (err.response.data) message.error(err.response.data);
+        else message.error("Something went wrong");
+      }
+        
     }
 
   };

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Col, Row, Tooltip, notification, Button, message } from "antd";
-import { EditOutlined, BellFilled, BellOutlined } from "@ant-design/icons";
+import { EditOutlined, BellFilled } from "@ant-design/icons";
 import { subscribe } from "../api/todo";
 
 export default class UserLists extends Component {
@@ -41,7 +41,6 @@ export default class UserLists extends Component {
 
   handleNotificationClick = () => {
     let isSubscribed = localStorage.getItem("isSubscribed");
-    console.log(isSubscribed);
     isSubscribed = isSubscribed === "true";
     if (!isSubscribed) {
       notification.open({
