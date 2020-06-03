@@ -296,10 +296,14 @@ body {
   margin-top: 1vh;
 }
 
+.search-icon{
+  font-size: 20px;
+  margin-top: 1vh;
+}
+
 .filter-icon {
   font-size: 20px;
   margin-top: 1vh;
-  margin-right: 1vw;
 }
 
 .filter-icon:hover {
@@ -442,10 +446,15 @@ body {
     margin-top: 1vh;
   }
 
+  .search-icon{
+    font-size: 20px;
+    margin-top: 1vh;
+  }
+
   .filter-icon {
     font-size: 20px;
     margin-top: 1vh;
-    margin-right: 3vw;
+
   }
 
   .filter-icon:hover {
@@ -574,7 +583,6 @@ body {
   .filter-icon {
     font-size: 25px;
     margin-top: 0.5vh;
-    margin-right: 3vw;
   }
 
   .filter-icon:hover {
@@ -714,7 +722,6 @@ body {
   .filter-icon {
     font-size: 25px;
     margin-top: 0.5vh;
-    margin-right: 3vw;
   }
 
   .filter-icon:hover {

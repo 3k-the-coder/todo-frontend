@@ -113,7 +113,6 @@ export const subscribe = async (email, subscribe) => {
 }
 
 export const deleteUserAccount = async (email) => {
-  console.log(email)
   return await todo.delete("user/", {
     data: {
       email

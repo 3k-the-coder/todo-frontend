@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Row, Col, Tooltip } from "antd";
+import { Row, Col, Tooltip, Input } from "antd";
 import { getAllTasks, deleteTask, filterTask } from "../api/todo";
 import CreateTaskModal from "./CreateTaskModal";
 import Task from "./Task";
@@ -8,8 +8,11 @@ import {
   ArrowLeftOutlined,
   FilterOutlined,
   FilterFilled,
+  SearchOutlined,
 } from "@ant-design/icons";
 import ApplyFilterModal from "./ApplyFilterModal";
+
+const { Search } = Input;
 
 export default class List extends Component {
   constructor(props) {
@@ -19,6 +22,8 @@ export default class List extends Component {
       isCreateTaskModalVisible: false,
       tasks: undefined,
       isFilterModalVisible: false,
+      isSearchClicked: false,
+      searchString: undefined,
     };
   }
 
@@ -134,6 +139,20 @@ export default class List extends Component {
     }
   };
 
+  handleSearchClick = () => {
+    this.setState({
+      isSearchClicked: true,
+    });
+  };
+
+  matchTasksWithSearchString = (value) => {
+    const tasks = this.state.tasks.filter(item => item.name.match(value))
+    this.setState({ 
+      isSearchClicked: false,
+      tasks: tasks 
+    })
+  }
+
   render() {
     return (
       <div>
@@ -147,26 +166,45 @@ export default class List extends Component {
           <Col lg={16} md={20} sm={20} xs={20}>
             <div className="list-container">
               <Row>
-                <Col span={18}>
+                <Col lg={14} md={18} sm={18} xs={18}>
                   <h2> {this.state.selectedList.name} </h2>
                 </Col>
-                <Col span={6}>
-                  <Tooltip title="Click here to create new task">
-                    <PlusOutlined
-                      className="float-right icon create-task-icon"
-                      onClick={this.handleCreateNewTask}
+                <Col lg={10} md={6} sm={6} xs={6}>
+                  {this.state.isSearchClicked 
+                  ? <Search placeholder="search tasks"  
+                        onSearch={value=> this.matchTasksWithSearchString(value)}
                     />
-                  </Tooltip>
-                  {this.isFilterApplied() ? (
-                    <FilterFilled
-                      className="float-right icon filter-icon"
-                      onClick={this.handleFilterClick}
-                    />
-                  ) : (
-                    <FilterOutlined
-                      className="float-right icon filter-icon"
-                      onClick={this.handleFilterClick}
-                    />
+                  : (
+                    <Row>
+                      <Col span={8}>
+                        <SearchOutlined
+                          className="search-icon float-right"
+                          onClick={this.handleSearchClick}
+                        />
+                      </Col>
+
+                      <Col span={8}>
+                        {this.isFilterApplied() ? (
+                          <FilterFilled
+                            className="float-right icon filter-icon"
+                            onClick={this.handleFilterClick}
+                          />
+                        ) : (
+                          <FilterOutlined
+                            className="float-right icon filter-icon"
+                            onClick={this.handleFilterClick}
+                          />
+                        )}
+                      </Col>
+                      <Col span={8}>
+                        <Tooltip title="Click here to create new task">
+                          <PlusOutlined
+                            className="float-right icon create-task-icon"
+                            onClick={this.handleCreateNewTask}
+                          />
+                        </Tooltip>
+                      </Col>
+                    </Row>
                   )}
                 </Col>
                 {this.state.tasks === undefined ||
