@@ -119,3 +119,20 @@ export const deleteUserAccount = async (email) => {
     }
   })
 }
+
+
+export const getUserPerformance = async (email) => {
+  return await todo.get("test_report/",{
+    params: {
+      email
+    }
+  })
+}
+
+export const emailUserPerformace = async (email) => {
+  return await todo.get("report_email/",{
+    params:{
+      email
+    }
+  })
+}

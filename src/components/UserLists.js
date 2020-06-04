@@ -20,7 +20,8 @@ export default class UserLists extends Component {
               <Col span={22}>{item.name}</Col>
               <Col span={2}>
                 <Tooltip title="Edit">
-                  <EditOutlined className="list-edit-icon"
+                  <EditOutlined
+                    className="list-edit-icon"
                     onClick={() => this.props.handleListSelection(item)}
                   />
                 </Tooltip>
@@ -85,18 +86,25 @@ export default class UserLists extends Component {
     }
   };
 
-
   render() {
     return (
       <div className="user-list-content">
         <Row>
-          <Col span={16} >
+          <Col span={16}>
             <h2> YOUR LISTS </h2>
           </Col>
           <Col span={8}>
-              <BellFilled className="subscription-icon float-right"
-                onClick={this.handleNotificationClick}
-              />
+            <Row>
+              <Col span={12}>
+                 
+              </Col>
+              <Col span={12}>
+                <BellFilled
+                  className="subscription-icon float-right"
+                  onClick={this.handleNotificationClick}
+                />
+              </Col>
+            </Row>
           </Col>
         </Row>
 

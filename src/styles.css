@@ -56,6 +56,22 @@ body {
   background: #555;
 }
 
+.center-align{
+  text-align: center;
+}
+
+
+.warning-text{
+  color: red;
+}
+
+.yellow-text{
+  color: var(--accent-color-yellow);
+}
+
+.green-text{
+  color: green;
+}
 /* HomePageLeft */
 .home-page-left {
   padding: 20vh 8vw;
@@ -161,6 +177,20 @@ body {
   border-color: var(--accent-color-yellow);
 }
 
+
+/* ProfileModal */
+.profile-loader-container{
+  text-align: center;
+}
+
+.report-container{
+  margin-top: 3vh;
+  padding-left: 5vw;
+}
+
+.profile-modal .ant-modal-body{
+  padding: 12px;
+}
 
 /* MainContent */
 
@@ -409,6 +439,16 @@ body {
     font-size: 7px;
   }
 
+  /* ProfileModal - 480 */
+  .report-container{
+    margin-top: 0vh;
+    padding-left: 4vw;
+  }
+  
+  .profile-modal .ant-modal-body{
+    padding: 12px;
+  }
+
   /* UserLists - 480*/
 
   .user-list-content {
@@ -457,7 +497,7 @@ body {
 
   }
 
-  .filter-icon:hover {
+  .filter-icon:hover, .search-icon:hover{
     font-size: 25px;
   }
 

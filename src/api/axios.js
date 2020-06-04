@@ -1,8 +1,9 @@
 import axios from 'axios';
+import CONFIG from './../config';
+
 
 export const todo = axios.create({
-    // baseURL: "http://localhost:8000/",
-    baseURL: "https://todo-tracker-backend.herokuapp.com/",
+    baseURL: CONFIG.baseURL,
     headers: {
         'Content-Type': 'application/json'
     }

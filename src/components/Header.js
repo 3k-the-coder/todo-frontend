@@ -2,12 +2,14 @@ import React, { Component } from "react";
 import { Row, Col, Button, Menu, Dropdown } from "antd";
 import history from "../history";
 import DeleteAccountModal from "./DeleteAccountModal";
+import ProfileModal from "./ProfileModal";
 
 export default class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isDeleteAccountModalVisible: false,
+      isProfileModalVisible: false,
     };
   }
 
@@ -23,10 +25,18 @@ export default class Header extends Component {
     this.setState({ isDeleteAccountModalVisible: false });
   };
 
+  handleProfileClick = () => {
+    this.setState({ isProfileModalVisible: true });
+  };
+
+  toggleProfileModalVisibility = () => {
+    this.setState({ isProfileModalVisible: false });
+  };
+
   render() {
     const menu = (
       <Menu>
-        <Menu.Item key="1" disabled>
+        <Menu.Item key="1" onClick={this.handleProfileClick}>
           {localStorage.getItem("name")}
         </Menu.Item>
         <Menu.Item key="2" onClick={this.handleLogoutClick}>
@@ -61,6 +71,15 @@ export default class Header extends Component {
             visible={this.state.isDeleteAccountModalVisible}
             toggleDeleteAccountModalVisibility={
               this.toggleDeleteAccountModalVisibility
+            }
+          />
+        )}
+
+        {this.state.isProfileModalVisible && (
+          <ProfileModal
+            visible={this.state.isProfileModalVisible}
+            toggleProfileModalVisibility={
+              this.toggleProfileModalVisibility
             }
           />
         )}
