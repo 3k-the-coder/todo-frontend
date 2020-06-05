@@ -15,7 +15,7 @@ body {
   font-family: "Roboto", sans-serif;
   font-size: 15px;
   width: 98vw;
-  height: 98vh;
+  /* height: 98vh; */
   color: white !important;
   overflow: hidden;
 }
@@ -198,6 +198,11 @@ body {
 
 /* MainContent */
 
+/* .main-content{
+  overflow: hidden;
+} */
+
+
 .empty-lists-msg {
   text-align: center;
   display: flex;
@@ -249,7 +254,7 @@ body {
 
 .list-detail {
   border: 1px solid white;
-  padding: 24px;
+  padding: 24px 12px;
   border-radius: 2vh;
   background-color: rgb(73, 73, 73);
   margin-bottom: 7vh;
@@ -270,6 +275,15 @@ body {
 }
 
 .list-edit-icon:hover {
+  font-size: 20px;
+}
+
+.delete-list-icon{
+  margin-top: 0.5vh;
+
+}
+
+.delete-list-icon:hover{
   font-size: 20px;
 }
 
@@ -460,7 +474,7 @@ body {
   /* UserLists - 480*/
 
   .user-list-content {
-    height: 80vh;
+    height: 66vh;
     padding: 5vh 2vw 5vh 5vw;
     overflow-y: auto;
   }
@@ -487,6 +501,7 @@ body {
 
   .list-container {
     width: 80vw;
+    height: 66vh;
   }
 
   .create-task-icon {

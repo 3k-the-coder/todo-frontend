@@ -127,7 +127,7 @@ export default class ProfileModal extends Component {
                 <Row className="small-top-margin warning-text">
                   <span>
                     
-                    late tasks: {
+                    overdue tasks: {
                       this.state.performance_details.late_tasks
                     }
                   </span>

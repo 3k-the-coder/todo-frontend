@@ -39,9 +39,11 @@ export default class Header extends Component {
         <Menu.Item key="1" onClick={this.handleProfileClick}>
           {localStorage.getItem("name")}
         </Menu.Item>
-        <Menu.Item key="2" onClick={this.handleLogoutClick}>
-          Logout
-        </Menu.Item>
+        
+          <Menu.Item key="2" onClick={this.handleLogoutClick}>
+              Logout
+          </Menu.Item>
+        
         <Menu.Item key="3" onClick={this.handleDeleteAccountClick}>
           Delete Account
         </Menu.Item>

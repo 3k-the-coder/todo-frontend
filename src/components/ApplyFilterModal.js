@@ -82,10 +82,10 @@ export default class ApplyFilterModal extends Component {
               <span className="information-text"> * You can select one or combination of more than one filters </span>
           </Row>
         <Row className="form-top-margin-3vh">
-          <Col lg={4}>
+          <Col lg={4} md={8} sm={8} xs={8}>
             <label for="label"> Progress </label>
           </Col>
-          <Col lg={20}>
+          <Col lg={20} md={16} sm={16} xs={16}>
             <Select
               placeholder="Select Progress Filter"
               optionFilterProp="children"
@@ -101,10 +101,10 @@ export default class ApplyFilterModal extends Component {
         </Row>
 
         <Row className="form-top-margin-3vh">
-          <Col lg={4}>
-            <label for="progress"> Label: </label>
+          <Col lg={4} md={8} sm={8} xs={8}>
+            <label for="progress"> Label </label>
           </Col>
-          <Col lg={20}>
+          <Col lg={20} md={16} sm={16} xs={16}>
             <Select
               showSearch
               placeholder="Select label filter"
@@ -123,10 +123,10 @@ export default class ApplyFilterModal extends Component {
         </Row>
 
         <Row className="form-top-margin-3vh">
-          <Col lg={4}>
-            <label for="status"> Status: </label>
+          <Col lg={4} md={8} sm={8} xs={8}>
+            <label for="status"> Status </label>
           </Col>
-          <Col lg={20}>
+          <Col lg={20} md={16} sm={16} xs={16}>
             <Select
               showSearch
               placeholder="Select status filter"
@@ -143,10 +143,10 @@ export default class ApplyFilterModal extends Component {
           </Col>
         </Row>
         <Row className="form-top-margin-3vh">
-          <Col lg={4}>
-            <label for="priority"> Priority: </label>
+          <Col lg={4} md={8} sm={8} xs={8}>
+            <label for="priority"> Priority </label>
           </Col>
-          <Col lg={20}>
+          <Col lg={20} md={16} sm={16} xs={16}>
             <Select
               showSearch
               placeholder="Select priority filter"

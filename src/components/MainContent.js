@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getAllLists } from "../api/todo";
+import { getAllLists, deleteList } from "../api/todo";
 import CreateListModal from "./CreateListModal";
 import UserLists from "./UserLists";
 import {Spin, message} from 'antd';
@@ -15,6 +15,29 @@ export default class MainContent extends Component {
       lists: undefined,
       createListModalVisible: false,
     };
+  }
+
+  handleDeleteListClick = async (listItem) => {
+    try{
+      await deleteList(listItem.id)
+    }
+    catch(err)
+    {
+      message.error("Can't delete the selected list, Please try again")
+    }
+
+    try{
+      this.setState({ loading: true })
+      const response = await getAllLists(localStorage.getItem("email"));
+      this.setState({
+         lists: response.data,
+         loading: false
+       });
+    }
+    catch(err)
+    {
+      message.error("Error while fetching the lists, Please try again")
+    }
   }
 
   componentDidMount = async () => {
@@ -84,7 +107,8 @@ export default class MainContent extends Component {
             lists={this.state.lists}
             handleCreateNewList={this.handleCreateNewList}
             handleListSelection={this.props.handleListSelection}
-          />
+            handleDeleteListClick={this.handleDeleteListClick}
+          />  
         )}
 
         {this.state.createListModalVisible && (

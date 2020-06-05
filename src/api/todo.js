@@ -31,6 +31,14 @@ export const createNewList = async (email, name, description) => {
   });
 };
 
+export const deleteList = async (id) => {
+  return await todo.delete("lists/", {
+    data:{
+      id
+    }
+  });
+}
+
 export const getAllTasks = async (id) => {
   return await todo.get("tasks/", {
     params: {

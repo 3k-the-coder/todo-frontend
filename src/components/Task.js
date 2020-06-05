@@ -140,7 +140,7 @@ export default class Task extends Component {
             <Row>
               <Col lg={8} md={8} sm={8} xs={8}>
                 {!this.state.completed && (
-                  <Tooltip title="Delete task">
+                  
                     <Popconfirm
                       title="Are you sure?"
                       onConfirm={this.handleDeleteClick}
@@ -149,7 +149,7 @@ export default class Task extends Component {
                     >
                       <DeleteOutlined className="float-right delete-task task-icon" />
                     </Popconfirm>
-                  </Tooltip>
+                  
                 )}
               </Col>
               <Col lg={8} md={8} sm={8} xs={8}>

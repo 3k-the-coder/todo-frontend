@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Col, Row, Tooltip, notification, Button, message } from "antd";
-import { EditOutlined, BellFilled } from "@ant-design/icons";
+import { Col, Row, Tooltip, notification, Button, message, Popconfirm } from "antd";
+import { EditOutlined, BellFilled, DeleteOutlined } from "@ant-design/icons";
 import { subscribe } from "../api/todo";
 
 export default class UserLists extends Component {
@@ -11,20 +11,32 @@ export default class UserLists extends Component {
     };
   }
 
+
+
   renderLists = () => {
     return this.state.lists.map((item, index) => {
       return (
-        <Col lg={5} md={12} sm={12} xs={20}>
+        <Col lg={7} md={12} sm={12} xs={20}>
           <div className="list-detail small-left-margin">
             <Row>
-              <Col span={22}>{item.name}</Col>
-              <Col span={2}>
+              <Col span={18}>{item.name}</Col>
+              <Col span={3}>
                 <Tooltip title="Edit">
                   <EditOutlined
                     className="list-edit-icon"
                     onClick={() => this.props.handleListSelection(item)}
                   />
                 </Tooltip>
+              </Col>
+              <Col span={3}>
+                <Popconfirm
+                  title="This will delete the selected list. Are you sure?"
+                  onConfirm={() => this.props.handleDeleteListClick(item)}
+                  okText="Yes, Delete it."
+                  cancelText="No"
+                >
+                  <DeleteOutlined className="float-right delete-list-icon" />
+                </Popconfirm>
               </Col>
             </Row>
           </div>
@@ -34,18 +46,15 @@ export default class UserLists extends Component {
   };
 
   handleSubscriptionClick = async (isSubscribed) => {
-    try{
+    try {
       localStorage.setItem("isSubscribed", !isSubscribed);
-    
+
       await subscribe(localStorage.getItem("email"), !isSubscribed);
       if (!isSubscribed) message.success("Subscribed successfully");
       notification.close("subscribe");
+    } catch (err) {
+      message.error("Something went wrong, Please try again later");
     }
-    catch(err)
-    {
-      message.error("Something went wrong, Please try again later")
-    }
-
   };
 
   handleNotificationClick = () => {
@@ -103,9 +112,7 @@ export default class UserLists extends Component {
           </Col>
           <Col span={8}>
             <Row>
-              <Col span={12}>
-                 
-              </Col>
+              <Col span={12}></Col>
               <Col span={12}>
                 <BellFilled
                   className="subscription-icon float-right"
@@ -119,7 +126,7 @@ export default class UserLists extends Component {
         <br />
         <Row>
           {this.renderLists()}
-          <Col lg={5} md={12} sm={12} xs={20}>
+          <Col lg={7} md={12} sm={12} xs={20}>
             <div
               className="list-detail create-new-list-div small-left-margin"
               onClick={this.props.handleCreateNewList}
