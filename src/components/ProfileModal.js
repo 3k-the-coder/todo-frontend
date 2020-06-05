@@ -12,6 +12,7 @@ export default class ProfileModal extends Component {
       name: undefined,
       description: undefined,
       performance_details: undefined,
+      sendEmailClicked: false
     };
   }
 
@@ -22,6 +23,7 @@ export default class ProfileModal extends Component {
 
   handleOk = async () => {
       try{
+        this.setState({ sendEmailClicked: true })
         await emailUserPerformace(localStorage.getItem("email"))
         message.success("Email sent successfully")
         this.setState({ visible: false });
@@ -36,15 +38,23 @@ export default class ProfileModal extends Component {
 
   getProgressPercent = () => {
     if (this.state.performance_details.total_tasks === 0) return 0;
-    return (
+    const percent = (
       (this.state.performance_details.completed_tasks /
         this.state.performance_details.total_tasks) *
       100
     );
+    return parseInt(percent)
   };
   componentDidMount = async () => {
-    const response = await getUserPerformance(localStorage.getItem("email"));
-    this.setState({ performance_details: response.data });
+    try{
+      const response = await getUserPerformance(localStorage.getItem("email"));
+      this.setState({ performance_details: response.data });
+    }
+    catch(err)
+    {
+      message.error("Error while fetching details, Please try again")
+    }
+
   };
 
   render() {
@@ -59,6 +69,11 @@ export default class ProfileModal extends Component {
           <Button key="back" onClick={this.handleCancel}>
             Go back
           </Button>,
+          this.state.sendEmailClicked
+          ? <Button key="submit" type="primary" loading={true}>
+              Email the report
+            </Button>
+          :
           <Popconfirm
           title={"We will email the report to your registered mail " + localStorage.getItem("email")}
           onConfirm={this.handleOk}
@@ -74,14 +89,14 @@ export default class ProfileModal extends Component {
       >
         {this.state.performance_details === undefined ? (
           <div className="profile-loader-container">
-            {" "}
-            <Spin indicator={antIcon} />{" "}
+            
+            <Spin indicator={antIcon} />
           </div>
         ) : (
           <div>
             <Row>
               <Col span={12} className="center-align">
-                <h4> Your report </h4>
+                <h4> Your To do score </h4>
                 <Progress type="circle" percent={this.getProgressPercent()} className="small-top-margin"/>
               </Col>
               <Col span={12} className="center-align report-container">

@@ -15,7 +15,8 @@ export default class EditTaskModal extends Component {
       status: this.props.task.status,
       date: undefined,
       time: undefined,
-      isCompleted: this.props.task.isCompleted
+      isCompleted: this.props.task.isCompleted,
+      editClicked: false
     };
   }
 
@@ -37,6 +38,7 @@ export default class EditTaskModal extends Component {
       message.error("Please select a due date and time for the task");
     else{
       try{
+        this.setState({ editClicked: true })
         await updateTask(
           this.props.task.id,
           this.state.name,
@@ -53,6 +55,7 @@ export default class EditTaskModal extends Component {
       }
       catch(err)
       {
+        this.setState({ editClicked: false })
         if (err.response.data) message.error(err.response.data);
         else message.error("Something went wrong");
       }
@@ -107,8 +110,13 @@ export default class EditTaskModal extends Component {
           <Button key="back" onClick={this.handleCancel}>
             Cancel
           </Button>,
+          this.state.editClicked
+          ?<Button key="submit" type="primary" loading={true}>
+          Editing
+        </Button>
+          :
           <Button key="submit" type="primary" onClick={this.handleOk}>
-            Submit
+            Edit
           </Button>,
         ]}
       >

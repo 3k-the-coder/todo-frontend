@@ -11,7 +11,8 @@ export default class ApplyFilterModal extends Component {
       progress: undefined,
       label: undefined,
       status: undefined,
-      priority: undefined
+      priority: undefined,
+      applyClicked: false
 
     };
   }
@@ -29,7 +30,10 @@ export default class ApplyFilterModal extends Component {
 
   handleOk = async () => {
 
-    this.setState({ visible: false });
+    this.setState({ 
+        visible: false, 
+        applyClicked: true 
+      });
     this.props.toggleFilterModalVisibility(false, this.state.progress, this.state.label, this.state.status, this.state.priority);
   };
 
@@ -64,8 +68,13 @@ export default class ApplyFilterModal extends Component {
           <Button key="back" onClick={this.handleCancel}>
             Cancel
           </Button>,
+          this.state.applyClicked
+          ?<Button key="submit" type="primary" loading={true}>
+            Applying
+        </Button>
+          :
           <Button key="submit" type="primary" onClick={this.handleOk}>
-            Submit
+            Apply
           </Button>,
         ]}
       >
@@ -147,9 +156,8 @@ export default class ApplyFilterModal extends Component {
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
-              <Option value="Tomorrow">Due Tomorrow</Option>
+              <Option value="Today">Due today</Option>
               <Option value="Week">Due this week</Option>
-              <Option value="Month">Due this month</Option>
             </Select>
           </Col>
         </Row>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, Row, Col, Tooltip, Tag, Checkbox, Popconfirm } from "antd";
+import { Card, Row, Col, Tooltip, Tag, Checkbox, Popconfirm, message } from "antd";
 import EditTaskModal from "./EditTaskModal";
 import { getSingleTask, updateTask } from "../api/todo";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
@@ -35,11 +35,15 @@ export default class Task extends Component {
 
   toggleEditTaskModalVisibility = async (value) => {
     // this.setState({ task: undefined })
-    const response = await getSingleTask(this.state.task.id);
-    this.setState({
-      isEditTaskModalVisible: value,
-      task: response.data,
-    });
+    try {
+      const response = await getSingleTask(this.state.task.id);
+      this.setState({
+        isEditTaskModalVisible: value,
+        task: response.data,
+      });
+    } catch (err) {
+      message.error("Something went wrong, Please try again later");
+    }
   };
 
   handleDeleteClick = () => {
@@ -49,22 +53,26 @@ export default class Task extends Component {
   handleCompleteClick = async () => {
     const task = this.state.task;
     let checked = this.state.completed;
-    await updateTask(
-      task.id,
-      task.name,
-      task.description,
-      task.label,
-      task.status,
-      task.date,
-      task.time,
-      !checked
-    );
-    const response = await getSingleTask(this.state.task.id);
-    this.setState({
-      completed: !checked,
-      task: response.data,
-    });
-    await this.props.reload();
+    try {
+      await updateTask(
+        task.id,
+        task.name,
+        task.description,
+        task.label,
+        task.status,
+        task.date,
+        task.time,
+        !checked
+      );
+      const response = await getSingleTask(this.state.task.id);
+      this.setState({
+        completed: !checked,
+        task: response.data,
+      });
+      await this.props.reload();
+    } catch (err) {
+      message.error("Something went wrong, Please try again later");
+    }
   };
 
   getCompletedTitle = () => {
@@ -90,7 +98,7 @@ export default class Task extends Component {
         "" +
         date.getFullYear() +
         " " +
-        months[date.getMonth() - 1] +
+        months[date.getMonth()] +
         " " +
         date.getDate();
 
@@ -116,7 +124,7 @@ export default class Task extends Component {
 
   render() {
     const task = this.state.task;
-    
+
     return (
       <Card className="task small-top-margin">
         <Row>
@@ -174,7 +182,10 @@ export default class Task extends Component {
           <Col lg={24}>
             Due on: {this.getDateTimeString(task.due_date)}
             {new Date(task.due_date) < new Date() && (
-              <Tag className="due-late-tag"  color="#f50"> Late </Tag>
+              <Tag className="due-late-tag" color="#f50">
+                {" "}
+                Late{" "}
+              </Tag>
             )}
           </Col>
         </Row>

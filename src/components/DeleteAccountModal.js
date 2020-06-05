@@ -51,7 +51,7 @@ export default class DeleteAccountModal extends Component {
         onCancel={this.handleCancel}
         footer={[
           <Button key="back" onClick={this.handleCancel}>
-            No, It was a mistake
+            Go back
           </Button>,
           <Button key="submit" type="danger" onClick={this.handleOk}>
             Delete My Account

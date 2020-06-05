@@ -25,6 +25,7 @@ export default class CreateTaskModal extends Component {
       status: undefined,
       date: undefined,
       time: undefined,
+      createTaskClicked: false,
     };
   }
 
@@ -46,6 +47,7 @@ export default class CreateTaskModal extends Component {
       message.error("Please select a due date and time for the task");
     else {
       try {
+        this.setState({ createTaskClicked: true });
         await createNewTask(
           this.props.selectedList.id,
           this.state.name,
@@ -59,6 +61,7 @@ export default class CreateTaskModal extends Component {
         this.setState({ visible: false });
         this.props.toggleCreateTaskModalVisibility(false, true);
       } catch (err) {
+        this.setState({ createTaskClicked: false });
         if (err.response.data) message.error(err.response.data);
         else message.error("Something went wrong");
       }
@@ -100,9 +103,15 @@ export default class CreateTaskModal extends Component {
           <Button key="back" onClick={this.handleCancel}>
             Cancel
           </Button>,
-          <Button key="submit" type="primary" onClick={this.handleOk}>
-            Submit
-          </Button>,
+          this.state.createTaskClicked ? (
+            <Button key="submit" type="primary" loading={true}>
+              Creating
+            </Button>
+          ) : (
+            <Button key="submit" type="primary" onClick={this.handleOk}>
+              Create
+            </Button>
+          ),
         ]}
       >
         <Row>

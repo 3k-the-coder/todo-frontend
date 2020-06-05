@@ -8,6 +8,7 @@ export default class CreateListModal extends Component {
       visible: true,
       name: undefined,
       description: undefined,
+      createListClicked: false
     };
   }
 
@@ -25,6 +26,7 @@ export default class CreateListModal extends Component {
       else
         desc = this.state.description
       try{
+        this.setState({ createListClicked: true })
         await createNewList(
           localStorage.getItem("email"),
           this.state.name, 
@@ -36,6 +38,7 @@ export default class CreateListModal extends Component {
       }
       catch(err)
       {
+        this.setState({ createListClicked: false })
         message.error("Something went wrong! Please try again.")
       }
 
@@ -61,8 +64,11 @@ export default class CreateListModal extends Component {
           <Button key="back" onClick={this.handleCancel}>
             Cancel
           </Button>,
+          this.state.createListClicked
+          ? <Button key="submit" type="primary" loading={true}> Creating </Button>
+          :
           <Button key="submit" type="primary" onClick={this.handleOk}>
-            Submit
+            Create List
           </Button>,
         ]}
       >

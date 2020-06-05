@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import { Row, Col, Tooltip, Input } from "antd";
+import { Row, Col, Tooltip, Input, Spin, message } from "antd";
 import { getAllTasks, deleteTask, filterTask } from "../api/todo";
 import CreateTaskModal from "./CreateTaskModal";
 import Task from "./Task";
+import { LoadingOutlined } from "@ant-design/icons";
+
 import {
   PlusOutlined,
   ArrowLeftOutlined,
@@ -13,6 +15,7 @@ import {
 import ApplyFilterModal from "./ApplyFilterModal";
 
 const { Search } = Input;
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 export default class List extends Component {
   constructor(props) {
@@ -24,6 +27,7 @@ export default class List extends Component {
       isFilterModalVisible: false,
       isSearchClicked: false,
       searchString: undefined,
+      loading: true,
     };
   }
 
@@ -38,26 +42,31 @@ export default class List extends Component {
     status = undefined,
     priority = undefined
   ) => {
-    this.setState({ tasks: undefined });
-    const response = await filterTask(
-      this.state.selectedList.id,
-      progress,
-      label,
-      status,
-      priority
-    );
-    const filterObject = {
-      progress,
-      label,
-      status,
-      priority,
-    };
+    this.setState({ loading: true });
+    try {
+      const response = await filterTask(
+        this.state.selectedList.id,
+        progress,
+        label,
+        status,
+        priority
+      );
+      const filterObject = {
+        progress,
+        label,
+        status,
+        priority,
+      };
 
-    localStorage.setItem("filter", JSON.stringify(filterObject));
-    this.setState({
-      isFilterModalVisible: value,
-      tasks: response.data,
-    });
+      localStorage.setItem("filter", JSON.stringify(filterObject));
+      this.setState({
+        isFilterModalVisible: value,
+        tasks: response.data,
+        loading: false,
+      });
+    } catch (err) {
+      message.error("Something went wrong");
+    }
   };
 
   getTaskCount = () => {
@@ -70,37 +79,64 @@ export default class List extends Component {
   };
 
   toggleCreateTaskModalVisibility = async (value) => {
-    this.setState({ tasks: undefined });
-    const response = await getAllTasks(this.state.selectedList.id);
-    this.setState({
-      tasks: response.data,
-      isCreateTaskModalVisible: false,
-    });
+    this.setState({ loading: true });
+    try {
+      const response = await getAllTasks(this.state.selectedList.id);
+      this.setState({
+        tasks: response.data,
+        isCreateTaskModalVisible: false,
+        loading: false,
+      });
+    } catch (err) {
+      message.error("Something went wrong");
+    }
   };
 
   reload = async () => {
-    this.setState({ tasks: undefined });
+    this.setState({ loading: true });
     const filterObject = JSON.parse(localStorage.getItem("filter"));
-    if (filterObject) {
-      const response = await filterTask(
-        this.state.selectedList.id,
-        filterObject.progress,
-        filterObject.label,
-        filterObject.status,
-        filterObject.priority
-      );
-      this.setState({ tasks: response.data });
-    } else {
-      const response = await getAllTasks(this.state.selectedList.id);
-      this.setState({ tasks: response.data });
+    try {
+      if (filterObject) {
+        const response = await filterTask(
+          this.state.selectedList.id,
+          filterObject.progress,
+          filterObject.label,
+          filterObject.status,
+          filterObject.priority
+        );
+        this.setState({
+          tasks: response.data,
+          loading: false,
+        });
+      } else {
+        const response = await getAllTasks(this.state.selectedList.id);
+        this.setState({
+          tasks: response.data,
+          loading: false,
+        });
+      }
+    } catch (err) {
+      message.error("Something went wrong.");
     }
   };
 
   handleDeleteTask = async (id) => {
-    await deleteTask(id);
-    this.setState({ tasks: undefined });
-    const response = await getAllTasks(this.state.selectedList.id);
-    this.setState({ tasks: response.data });
+    try {
+      await deleteTask(id);
+    } catch (err) {
+      message.error("Can't delete the task, Please try again later");
+    }
+
+    this.setState({ loading: true });
+    try {
+      const response = await getAllTasks(this.state.selectedList.id);
+      this.setState({
+        tasks: response.data,
+        loading: false,
+      });
+    } catch (err) {
+      message.error("Something went wrong");
+    }
   };
 
   renderTasks = () => {
@@ -124,18 +160,28 @@ export default class List extends Component {
 
   componentDidMount = async () => {
     const filterObject = JSON.parse(localStorage.getItem("filter"));
-    if (filterObject) {
-      const response = await filterTask(
-        this.state.selectedList.id,
-        filterObject.progress,
-        filterObject.label,
-        filterObject.status,
-        filterObject.priority
-      );
-      this.setState({ tasks: response.data });
-    } else {
-      const response = await getAllTasks(this.state.selectedList.id);
-      this.setState({ tasks: response.data });
+    try {
+      if (filterObject) {
+        const response = await filterTask(
+          this.state.selectedList.id,
+          filterObject.progress,
+          filterObject.label,
+          filterObject.status,
+          filterObject.priority
+        );
+        this.setState({
+          tasks: response.data,
+          loading: false,
+        });
+      } else {
+        const response = await getAllTasks(this.state.selectedList.id);
+        this.setState({
+          tasks: response.data,
+          loading: false,
+        });
+      }
+    } catch (err) {
+      message.error("Something went wrong");
     }
   };
 
@@ -146,12 +192,80 @@ export default class List extends Component {
   };
 
   matchTasksWithSearchString = (value) => {
-    const tasks = this.state.tasks.filter(item => item.name.match(value))
-    this.setState({ 
+    const tasks = this.state.tasks.filter((item) => item.name.match(value));
+    this.setState({
       isSearchClicked: false,
-      tasks: tasks 
-    })
-  }
+      tasks: tasks,
+    });
+  };
+
+  renderListContents = () => {
+    return (
+      <Row>
+        <Col lg={14} md={18} sm={18} xs={18}>
+          <h2> {this.state.selectedList.name} </h2>
+        </Col>
+        <Col lg={10} md={6} sm={6} xs={6}>
+          {this.state.isSearchClicked ? (
+            <Search
+              placeholder="search tasks"
+              onSearch={(value) => this.matchTasksWithSearchString(value)}
+            />
+          ) : (
+            <Row>
+              <Col span={8}>
+                <SearchOutlined
+                  className="search-icon float-right"
+                  onClick={this.handleSearchClick}
+                />
+              </Col>
+
+              <Col span={8}>
+                {this.isFilterApplied() ? (
+                  <FilterFilled
+                    className="float-right icon filter-icon"
+                    onClick={this.handleFilterClick}
+                  />
+                ) : (
+                  <FilterOutlined
+                    className="float-right icon filter-icon"
+                    onClick={this.handleFilterClick}
+                  />
+                )}
+              </Col>
+              <Col span={8}>
+                <Tooltip title="Click here to create new task">
+                  <PlusOutlined
+                    className="float-right icon create-task-icon"
+                    onClick={this.handleCreateNewTask}
+                  />
+                </Tooltip>
+              </Col>
+            </Row>
+          )}
+        </Col>
+        {this.state.tasks === undefined || this.state.tasks.length === 0 ? (
+          localStorage.getItem("filter") ? (
+            <p className="empty-tasks-msg">
+              It Seems there are no tasks for that filter.
+            </p>
+          ) : (
+            <p className="empty-tasks-msg">
+              <button
+                onClick={this.handleCreateNewTask}
+                className="create-new-task-link"
+              >
+                Click here
+              </button>
+              to create new tasks.
+            </p>
+          )
+        ) : (
+          <div className="task-container">{this.renderTasks()}</div>
+        )}
+      </Row>
+    );
+  };
 
   render() {
     return (
@@ -165,69 +279,14 @@ export default class List extends Component {
           </Col>
           <Col lg={16} md={20} sm={20} xs={20}>
             <div className="list-container">
-              <Row>
-                <Col lg={14} md={18} sm={18} xs={18}>
-                  <h2> {this.state.selectedList.name} </h2>
-                </Col>
-                <Col lg={10} md={6} sm={6} xs={6}>
-                  {this.state.isSearchClicked 
-                  ? <Search placeholder="search tasks"  
-                        onSearch={value=> this.matchTasksWithSearchString(value)}
-                    />
-                  : (
-                    <Row>
-                      <Col span={8}>
-                        <SearchOutlined
-                          className="search-icon float-right"
-                          onClick={this.handleSearchClick}
-                        />
-                      </Col>
-
-                      <Col span={8}>
-                        {this.isFilterApplied() ? (
-                          <FilterFilled
-                            className="float-right icon filter-icon"
-                            onClick={this.handleFilterClick}
-                          />
-                        ) : (
-                          <FilterOutlined
-                            className="float-right icon filter-icon"
-                            onClick={this.handleFilterClick}
-                          />
-                        )}
-                      </Col>
-                      <Col span={8}>
-                        <Tooltip title="Click here to create new task">
-                          <PlusOutlined
-                            className="float-right icon create-task-icon"
-                            onClick={this.handleCreateNewTask}
-                          />
-                        </Tooltip>
-                      </Col>
-                    </Row>
-                  )}
-                </Col>
-                {this.state.tasks === undefined ||
-                this.state.tasks.length === 0 ? (
-                  localStorage.getItem("filter") ? (
-                    <p className="empty-tasks-msg">
-                      It Seems there are no tasks for that filter.
-                    </p>
-                  ) : (
-                    <p className="empty-tasks-msg">
-                      <button
-                        onClick={this.handleCreateNewTask}
-                        className="create-new-task-link"
-                      >
-                        Click here
-                      </button>
-                      to create new tasks.
-                    </p>
-                  )
-                ) : (
-                  <div className="task-container">{this.renderTasks()}</div>
-                )}
-              </Row>
+              {this.state.loading ? (
+                <div className="loader-container center-align">
+                  {" "}
+                  <Spin indicator={antIcon} />{" "}
+                </div>
+              ) : (
+                this.renderListContents()
+              )}
             </div>
           </Col>
         </Row>

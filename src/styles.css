@@ -72,6 +72,10 @@ body {
 .green-text{
   color: green;
 }
+
+.loader-container{
+  margin-top: 25vh;
+}
 /* HomePageLeft */
 .home-page-left {
   padding: 20vh 8vw;
@@ -329,6 +333,10 @@ body {
 .search-icon{
   font-size: 20px;
   margin-top: 1vh;
+}
+
+.search-icon:hover{
+  font-size: 25px;
 }
 
 .filter-icon {

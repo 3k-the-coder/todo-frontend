@@ -34,10 +34,18 @@ export default class UserLists extends Component {
   };
 
   handleSubscriptionClick = async (isSubscribed) => {
-    localStorage.setItem("isSubscribed", !isSubscribed);
-    await subscribe(localStorage.getItem("email"), !isSubscribed);
-    if (!isSubscribed) message.success("Subscribed successfully");
-    notification.close("subscribe");
+    try{
+      localStorage.setItem("isSubscribed", !isSubscribed);
+    
+      await subscribe(localStorage.getItem("email"), !isSubscribed);
+      if (!isSubscribed) message.success("Subscribed successfully");
+      notification.close("subscribe");
+    }
+    catch(err)
+    {
+      message.error("Something went wrong, Please try again later")
+    }
+
   };
 
   handleNotificationClick = () => {

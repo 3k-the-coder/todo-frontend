@@ -11,6 +11,7 @@ export default class RegistrationModal extends Component {
       email: undefined,
       password: undefined,
       confirmPassword: undefined,
+      registerClicked: false,
     };
   }
 
@@ -36,6 +37,7 @@ export default class RegistrationModal extends Component {
     else
     {
       try{
+        this.setState({ registerClicked: true })
         await register(
           this.state.name,
           this.state.email,
@@ -48,6 +50,7 @@ export default class RegistrationModal extends Component {
       }
       catch(err)
       {
+        this.setState({ registerClicked: false })
         if(err.response)
           message.error(err.response.data)
         else
@@ -87,6 +90,9 @@ export default class RegistrationModal extends Component {
           <Button key="back" onClick={this.handleCancel}>
             Cancel
           </Button>,
+          this.state.registerClicked
+          ? <Button key="submit" type="primary" loading={true}> Registering </Button>
+          :
           <Button key="submit" type="primary" onClick={this.handleOk}>
             Register
           </Button>,
