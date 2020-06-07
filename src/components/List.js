@@ -214,27 +214,33 @@ export default class List extends Component {
           ) : (
             <Row>
               <Col span={8}>
-                <SearchOutlined
-                  className="search-icon float-right"
-                  onClick={this.handleSearchClick}
-                />
+                <Tooltip title="Search tasks by name">
+                  <SearchOutlined
+                    className="search-icon float-right"
+                    onClick={this.handleSearchClick}
+                  />
+                </Tooltip>
               </Col>
 
               <Col span={8}>
                 {this.isFilterApplied() ? (
-                  <FilterFilled
-                    className="float-right icon filter-icon"
-                    onClick={this.handleFilterClick}
-                  />
+                  <Tooltip title="Remove or add more filters">
+                    <FilterFilled
+                      className="float-right icon filter-icon"
+                      onClick={this.handleFilterClick}
+                    />
+                  </Tooltip>
                 ) : (
-                  <FilterOutlined
-                    className="float-right icon filter-icon"
-                    onClick={this.handleFilterClick}
-                  />
+                  <Tooltip title="Apply filters">
+                    <FilterOutlined
+                      className="float-right icon filter-icon"
+                      onClick={this.handleFilterClick}
+                    />
+                  </Tooltip>
                 )}
               </Col>
               <Col span={8}>
-                <Tooltip title="Click here to create new task">
+                <Tooltip title="New Task">
                   <PlusOutlined
                     className="float-right icon create-task-icon"
                     onClick={this.handleCreateNewTask}

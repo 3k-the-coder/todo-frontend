@@ -32,7 +32,7 @@ export default class CreateListModal extends Component {
           this.state.name, 
           desc
         );
-        message.success("List created successfully")
+        message.success("List created successfully, add task by clicking on edit icon.")
         this.setState({ visible: false });
         this.props.toggleCreateModalVisibility(false, true);
       }
@@ -76,12 +76,15 @@ export default class CreateListModal extends Component {
           <Col lg={4} xs={8}>
             <label for="name"> Name: </label>
           </Col>
-          <Col lg={20} xs={16}>
+          <Col lg={19} xs={15}>
             <Input
               id="name"
               placeholder="Enter name"
               onChange={this.handleNameChange}
             />
+          </Col>
+          <Col lg={1} xs={1}>
+            <p className="float-right required-field-indicator"> * </p>
           </Col>
         </Row>
 
@@ -89,7 +92,7 @@ export default class CreateListModal extends Component {
           <Col lg={4} xs={8}>
             <label for="description"> Description: </label>
           </Col>
-          <Col lg={20} xs={16}>
+          <Col lg={19} xs={16}>
             <Input.TextArea
               id="description"
               placeholder="Enter description"

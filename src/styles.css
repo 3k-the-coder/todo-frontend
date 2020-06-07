@@ -76,6 +76,10 @@ body {
 .loader-container{
   margin-top: 25vh;
 }
+
+.default-cursor{
+  cursor: default !important;
+}
 /* HomePageLeft */
 .home-page-left {
   padding: 20vh 8vw;
@@ -227,6 +231,7 @@ body {
   background-color: black;
   border-color: black;
   padding: 0;
+  font-size: 18px;
 }
 
 .create-new-list-link:focus {
@@ -258,6 +263,7 @@ body {
   border-radius: 2vh;
   background-color: rgb(73, 73, 73);
   margin-bottom: 7vh;
+  margin-right: 2vw;
 }
 
 .create-new-list-div {
@@ -290,6 +296,11 @@ body {
 /* CreateListModal */
 .list-modal {
   color: black;
+}
+
+.required-field-indicator{
+  color: red;
+
 }
 
 /* List */
@@ -326,6 +337,7 @@ body {
   border-color: var(--accent-color-yellow);
   border: none;
   padding: 0;
+  font-size: 18px;
 }
 
 .create-new-task-link:focus {
@@ -485,7 +497,7 @@ body {
   }
 
   .list-detail {
-    margin-left: 5vw;
+    margin-left: 0vw;
   }
 
   .subscription-icon {
@@ -616,7 +628,7 @@ body {
   }
 
   .list-detail {
-    margin-left: 5vw;
+    margin-left: 0vw;
   }
 
   .subscription-icon {
@@ -755,7 +767,7 @@ body {
   }
 
   .list-detail {
-    margin-left: 5vw;
+    margin-left: 0vw;
   }
 
   .subscription-icon {

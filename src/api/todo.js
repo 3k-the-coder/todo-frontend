@@ -130,7 +130,7 @@ export const deleteUserAccount = async (email) => {
 
 
 export const getUserPerformance = async (email) => {
-  return await todo.get("test_report/",{
+  return await todo.get("get_progress_report/",{
     params: {
       email
     }
@@ -138,7 +138,7 @@ export const getUserPerformance = async (email) => {
 }
 
 export const emailUserPerformace = async (email) => {
-  return await todo.get("report_email/",{
+  return await todo.get("send_report_via_email/",{
     params:{
       email
     }

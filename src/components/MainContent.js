@@ -19,7 +19,8 @@ export default class MainContent extends Component {
 
   handleDeleteListClick = async (listItem) => {
     try{
-      await deleteList(listItem.id)
+      await deleteList(listItem.id);
+      message.success("List Deleted successfully.")
     }
     catch(err)
     {
@@ -89,7 +90,7 @@ export default class MainContent extends Component {
           <React.Fragment>
             <p className="empty-lists-msg">
               
-              It seems You haven't created any lists. What are you waiting for?
+              Get started! Create your first list!
             </p>
             <p className="create-list-message">
               <button

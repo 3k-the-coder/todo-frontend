@@ -36,8 +36,11 @@ export default class Header extends Component {
   render() {
     const menu = (
       <Menu>
+        <Menu.Item key="1" className="default-cursor" disabled>
+          <b>{localStorage.getItem("name")}</b>
+        </Menu.Item>
         <Menu.Item key="1" onClick={this.handleProfileClick}>
-          {localStorage.getItem("name")}
+          Your progress
         </Menu.Item>
         
           <Menu.Item key="2" onClick={this.handleLogoutClick}>

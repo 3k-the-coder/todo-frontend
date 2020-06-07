@@ -153,12 +153,16 @@ export default class Task extends Component {
                 )}
               </Col>
               <Col lg={8} md={8} sm={8} xs={8}>
-                <Tooltip title="Edit task">
+              <Popconfirm
+                      title="Edit task?"
+                      onConfirm={this.handleEditTask}
+                      okText="Yes"
+                      cancelText="No"
+                    >
                   <EditOutlined
                     className="float-right task-icon"
-                    onClick={this.handleEditTask}
                   />
-                </Tooltip>
+                </Popconfirm>
               </Col>
               <Col lg={8} md={8} sm={8} xs={8}>
                 <Tooltip title="Mark as Completed">

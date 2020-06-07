@@ -1,5 +1,13 @@
 import React, { Component } from "react";
-import { Col, Row, Tooltip, notification, Button, message, Popconfirm } from "antd";
+import {
+  Col,
+  Row,
+  Tooltip,
+  notification,
+  Button,
+  message,
+  Popconfirm,
+} from "antd";
 import { EditOutlined, BellFilled, DeleteOutlined } from "@ant-design/icons";
 import { subscribe } from "../api/todo";
 
@@ -11,13 +19,11 @@ export default class UserLists extends Component {
     };
   }
 
-
-
   renderLists = () => {
     return this.state.lists.map((item, index) => {
       return (
         <Col lg={7} md={12} sm={12} xs={20}>
-          <div className="list-detail small-left-margin">
+          <div className="list-detail">
             <Row>
               <Col span={18}>{item.name}</Col>
               <Col span={3}>
@@ -125,15 +131,15 @@ export default class UserLists extends Component {
 
         <br />
         <Row>
-          {this.renderLists()}
           <Col lg={7} md={12} sm={12} xs={20}>
             <div
-              className="list-detail create-new-list-div small-left-margin"
+              className="list-detail create-new-list-div"
               onClick={this.props.handleCreateNewList}
             >
               Create new list
             </div>
           </Col>
+          {this.renderLists()}
         </Row>
       </div>
     );
