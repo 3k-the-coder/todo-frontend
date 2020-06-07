@@ -48,7 +48,11 @@ export const getAllTasks = async (id) => {
 };
 
 export const getSingleTask = async (id) => {
-    return await todo.get(("tasks/"+id+"/"))
+    return await todo.get("single_task/", {
+      params: {
+        id
+      }
+    })
 }
 
 export const createNewTask = async (
